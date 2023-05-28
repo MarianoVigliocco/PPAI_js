@@ -1,7 +1,6 @@
 export class CambioEstado {
-    constructor(fechaHoraInicio, fechaHoraFin, estado){
+    constructor(fechaHoraInicio, estado){
         this.fechaHoraInicio = fechaHoraInicio;
-        this.fechaHoraFin = fechaHoraFin;
         this.estado = estado
     }
     esEstadoInicial(){

@@ -6,48 +6,44 @@ import { mostrarPantalla,
     informarExitoRegistroAccion } from "./pantallarespuestaoperador.js";*/
 
 export class GestorRespuestaOperador {
-    constructor(llamadaActual, categoriaSeleccionada, opcionLlamadaSeleccionada,dniCliente,estadoEnCurso,
-        subOpcionSeleccionada, fechaHoraActual, estadoLlamada, validaciones, estadoFinalizado){
+    constructor(llamadaActual, categoriaSeleccionada, opcionLlamadaSeleccionada,
+        subOpcionSeleccionada){
             this.llamadaActual = llamadaActual;
             this.categoriaSeleccionada = categoriaSeleccionada;
             this.opcionLlamadaSeleccionada = opcionLlamadaSeleccionada;
-            this.dniCliente = dniCliente;
+            this.nombreCliente = null;
             this.subOpcionSeleccionada = subOpcionSeleccionada;
             this.fechaHoraActual = null;
             this.estadoLlamada = null;
-            this.validaciones = validaciones
+            this.validaciones = null;
+            this.datosLlamadaAMostrar = null;
 
     }
 
     RegistrarRespuestaOperador(){ // En teoria todos los metodos del gestor estan aca adentro en orden de ejecucion
-        pantalla.mostrarPantalla(); //le invoco el metodo a la Pantalla
-        this.getFechaEstadoActual();
-        const estadoEnCurso = this.buscarEstadoEnCurso(estados);
-        let fecha = this.getFechaActual();
-        llamada.actualizarEstado(estadoEnCurso, fecha);
-        const validaciones = this.buscarValidaciones();
-        const validacionesOrdenadas = this.ordenarValidaciones(validaciones);
-        const nombreCliente = this.buscarClientePorDNI();
-        const datosLlamadaAMostrar = llamada.getDatosLlamada();
+        pantalla.mostrarPantalla();//le invoco el metodo a la Pantalla
+        
+        this.buscarEstadoEnCurso(estados);
+
+        let fechaInicioLlamada = this.getFechaActual();
+
+        this.llamadaActual.actualizarEstado(this.estadoLlamada, fechaInicioLlamada);
+
+        this.validaciones = this.buscarValidaciones();
+        this.validaciones = this.ordenarValidaciones(this.validaciones); //chequear que ordene
+
+        this.nombreCliente = this.buscarNombreCliente();
+
+        this.datosLlamadaAMostrar = this.llamadaActual.getDatosLlamada(); //hasta aca controlado perfecto
+
         this.mostrarDatosLlamada();
         //aca tengo dudas de donde haria el loop de validaciones
-        pantalla.solicitarDescripcionOperador();
-        this.tomarDescripcionOperador();
-        llamada.setDescripcionOperador();
-        pantalla.solicitarAccionRequerida();
-        this.tomarAccionRequerida();
-        pantalla.solicitarConfirmacionOperador();
-        this.tomarConfirmacionOperacion();
-        //aca tengo dudas de como llamaria al otro caso de uso;
-        pantalla.informarExitoRegistroAccion();
+        //aca tengo dudas de como llamaria al otro caso de uso
+
         this.buscarEstadoFinalizado();
         this.calcularDuracionLlamada();
-        llamada.setDuracion();
+        this.llamadaActual.setDuracion();
         this.finCasoDeUso();
-    }
-
-    getFechaEstadoActual(){
-        llamada.getFechaEstadoActual() // le invoco el metodo a llamada
     }
 
     buscarEstadoEnCurso(estados) {
@@ -73,23 +69,22 @@ export class GestorRespuestaOperador {
         return llamada.getValidaciones();
     }
 
-    ordenarValidaciones() {
-
+    ordenarValidaciones(validaciones) {
+        this.validaciones.sort((a, b) => a.nombre.toUpperCase.localeCompare(b.nombre.toUpperCase));
     }
 
-    buscarClientePorDNI() {
-        return Llamada.getClientePorDni()
+    buscarNombreCliente() {
+        return this.llamadaActual.getNombreCliente()
     }
 
     mostrarDatosLlamada() {
-        PantallaRespuestaOperador.mostrarNombreCliente(nombreCliente);
-        PantallaRespuestaOperador.mostrarCategoriaSeleccionada(datos.categoriaSeleccionada);
-        PantallaRespuestaOperador.mostrarOpcionSeleccionada(datos.opcion);
-        PantallaRespuestaOperador.mostrarSubOpcionSeleccionada(datos.subOpcion);
+          PantallaRespuestaOperador.mostrarSubOpcionSeleccionada(datos.subOpcion);
     }
 
-    verificarSeleccionOpcion() {
-        Llamada.esCorrecta()
+    verificarSeleccionOpcion(validacion, seleccionOpcion) { // verificar metodo porque me parece que esta mal
+        if (!llamada.esOpcionCorrecta(validacion, seleccionOpcion)) {
+            return 'La opcion no es correcta'
+        }
     }
 
     tomarDescripcionOperador() {

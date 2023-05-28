@@ -8,11 +8,8 @@ export class OpcionValidacion{
         return this.descripcion
     }
 
-    esCorrecta(array, correcto){ 
-        if (correcta) {
-            return true
-        }
-        return null
+    esCorrecta(){
+        return this.correcta
     }
     setDescripcion(desc){
         this.descripcion = desc
