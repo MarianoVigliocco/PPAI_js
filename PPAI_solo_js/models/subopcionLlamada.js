@@ -1,4 +1,4 @@
-import Validacion from "./validacion.js"
+import { getValidaciones } from "./validacion.js"
 
 export class subOpcionLlamada{
     constructor(nombre, nroOrden,validacionesRequeridas){//validaciones requeridas tiene que ser un array de validaciones, cada una con los datos propios
@@ -7,15 +7,15 @@ export class subOpcionLlamada{
         this.validacionesRequeridas = validacionesRequeridas
 
     }
-    getValidaciones(){
+    getDatosValidaciones(){
         const validaciones = []
-        for (const validacion of this.validacionesRequeridas){
-        validaciones.push(validacion.getDatosValidaciones()) 
+        for (const validaciones of this.validacionesRequeridas){
+        validaciones.push(validacion.getValidaciones()) 
         }
         return validaciones // Cada item dentro de validaciones es un objeto con los datos de la validacion, a su vez cada validacione tiene opciones
     }
-    esOpcionCorrecta(validacion, seleccionOpcion){
-        return validacion.esOpcionCorrecta(seleccionOpcion)
+    esCorrecta(){
+
     }
 
 }

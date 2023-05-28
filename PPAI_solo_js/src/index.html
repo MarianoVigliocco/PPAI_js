@@ -25,31 +25,14 @@
     <!-- Tabla datos llamada -->
     <div id="App" class="row pt-5">
       <div class="mb-4">
-        <div class="card">
+        <div class="card" id="contTabla">
+
+          <!-- Aca se inserta la tabla -->
+
           <div class="container">
             <h4 class="mt-2">
               Datos llamada entrante
             </h4>
-            <div id="tabla-llamadas">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">NombreCliente</th>
-                    <th scope="col">Categoria</th>
-                    <th scope="col">Opcion</th>
-                    <th scope="col">SubOpcion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{nombre}</td>
-                    <td>{categoria}</td>
-                    <td>{opcion}</td>
-                    <td>{subopcion}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
       </div>
@@ -60,33 +43,9 @@
       <div class="col-md-4">
         <div class="mb-4">
           <div class="card">
-            <div class="card-header">
-              <h4>Pregunta de validacion 1</h4>
+            <div id='seccion_val1'>
+              <!-- Aca se inserta la primera validacion -->
             </div>
-            <form id="validacion1" class="card-body">
-              <div class="col">
-                <div class="form-group">
-                  <input class="form-check-input" type="radio" name="opcion1" id="opcion1" value="v1opcion1">
-                  <label class="form-check-label" for="opcion1">
-                    Opción 1
-                  </label>
-                </div>
-                <div class="form-group">
-                  <input class="form-check-input" type="radio" name="opcion1" id="opcion2" value="v1opcion2">
-                  <label class="form-check-label" for="opcion2">
-                    Opción 2
-                  </label>
-                </div>
-                <div class="form-group">
-                  <input class="form-check-input" type="radio" name="opcion1" id="opcion3" value="v1opcion3">
-                  <label class="form-check-label" for="opcion3">
-                    Opción 3
-                  </label>
-                </div>
-                <input type="submit" value="Confirmar" class="btn btn-primary btn-block" />
-              </div>
-            </form>
-
           </div>
         </div>
       </div>
@@ -94,65 +53,18 @@
       <!-- Validacion 2 -->
       <div class="col-md-4">
         <div class="card">
-          <div class="card-header">
-            <h4>Pregunta de validacion 2</h4>
+          <div id='seccion_val2'>
+            <!-- Aca se inserta la segunda validacion -->
           </div>
-          <form id="validacion2" class="card-body">
-            <div class="col">
-              <div class="form-group">
-                <input class="form-check-input" type="radio" name="opcion2" id="opcion4" value="v2opcion1">
-                <label class="form-check-label" for="opcion4">
-                  Opción 1
-                </label>
-              </div>
-              <div class="form-group">
-                <input class="form-check-input" type="radio" name="opcion2" id="opcion5" value="v2opcion2">
-                <label class="form-check-label" for="opcion5">
-                  Opción 2
-                </label>
-              </div>
-              <div class="form-group">
-                <input class="form-check-input" type="radio" name="opcion2" id="opcion6" value="v2opcion3">
-                <label class="form-check-label" for="opcion6">
-                  Opción 3
-                </label>
-              </div>
-              <input type="submit" value="Confirmar" class="btn btn-primary btn-block" />
-            </div>
-          </form>
-
         </div>
       </div>
 
       <!-- Validacion 3 -->
       <div class="col-md-4">
         <div class="card">
-          <div class="card-header">
-            <h4>Pregunta de validacion 3</h4>
+          <div id='seccion_val3'>
+            <!-- Aca se inserta la tercera validacion -->
           </div>
-          <form id="validacion3" class="card-body">
-            <div class="col">
-              <div class="form-group">
-                <input class="form-check-input" type="radio" name="opcion3" id="opcion7" value="v3opcion1">
-                <label class="form-check-label" for="opcion7">
-                  Opción 1
-                </label>
-              </div>
-              <div class="form-group">
-                <input class="form-check-input" type="radio" name="opcion3" id="opcion8" value="v3opcion2">
-                <label class="form-check-label" for="opcion8">
-                  Opción 2
-                </label>
-              </div>
-              <div class="form-group">
-                <input class="form-check-input" type="radio" name="opcion3" id="opcion9" value="v3opcion3">
-                <label class="form-check-label" for="opcion9">
-                  Opción 3
-                </label>
-              </div>
-              <input type="submit" value="Confirmar" class="btn btn-primary btn-block" />
-            </div>
-          </form>
 
         </div>
       </div>

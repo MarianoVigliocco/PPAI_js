@@ -1,11 +1,12 @@
-import { getDescripcion } from "./opcionvalidacion.js"
-export class Validacion{
+// import { getDescripcion } from "./opcionvalidacion.js"
+
+class Validacion{
     constructor(audioMensajeValidacion,nombre,opcionesValidacion){
         this.audioMensajeValidacion = audioMensajeValidacion;
         this.nombre = nombre;
         this.opcionesValidacion = opcionesValidacion;
     }
-    getDatosValidaciones(){
+    getValidacion(){
         const datosValidacion = {
             nombre: this.nombre,
             audioMensajeValidacion: this.audioMensajeValidacion,
@@ -19,7 +20,9 @@ export class Validacion{
         
         return datosValidacion
     }
-    esCorrecta(seleccionOpcion){
-        return seleccionOpcion.esCorrecta()
+    esCorrecta(){
+
+    }
 }
-}
+
+export default Validacion
