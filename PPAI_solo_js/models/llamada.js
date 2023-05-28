@@ -8,7 +8,7 @@ export class Llamada {
             this.duracion = duracion;
             this.encuestaEnviada = encuestaEnviada;
             this.observacionAuditor = observacionAuditor;
-            this.cliente= cliente //es solo el dni, con el metodO getClientePorDNI lo busca
+            this.cliente = cliente //cambiar en el diag de clases
             this.operador= operador
             this.subOpcion= subOpcion
             this.opcion= opcion 
@@ -18,41 +18,35 @@ export class Llamada {
 
         }
 
-    actualizarEstado(estado, fechaI,fechaF){
-            this.crearCambioEstado(estado,fechaI,fechaF)
+    actualizarEstado(estado, fechaI){
+            this.crearCambioEstado(estado, fechaI)
         }
-    crearCambioEstado(estado,fechaI,FechaFin){
-        const cambioEstado = new CambioEstado(fechaI,estado,FechaFin)
+
+    crearCambioEstado(estado,fechaI){
+        const cambioEstado = new CambioEstado(fechaI,estado)
         this.cambioEstado.push(cambioEstado)
     }
+
     getEstadoActual(){
             const actual= this.cambioEstado.pop()
             return actual
         }
+
      setDuracion (){
             const fechaActual = this.getFechaActual();
             const fechaInicio = this.cambioEstado[this.cambioEstado.length - 1].getFechaHoraInicio();
             const duracion = fechaActual - fechaInicio;
             this.duracion = duracion;
         }
-    getValidaciones(){
-        const subOpcionLlamada = this.subOpcion
-        return subOpcionLlamada.getValidaciones()
-    }
-    getClientePorDni(){
-        const dni = this.cliente
-        const clientes = this.obtenerClientes()
-        for (const cliente of clientes) {
-            if(cliente.esTuDNI(dni)) {
-                return cliente.getNombre()
-            }
-        }
 
+    getValidaciones(){
+        return this.subOpcion.getValidaciones()
     }
-    obtenerClientes() {
-        clientes = [BaseDatosClientes] //BaseDatosClientes deberia ser un archivo que contenga un array con todos los clientes
-        return clientes
+
+    getNombreCliente(){
+            return this.cliente.getNombre()
     }
+
     getDatosLlamada(){
         return {
             opcion: this.opcion,
@@ -60,8 +54,8 @@ export class Llamada {
             categoriaSeleccionada: this.categoriaSeleccionada
         }
     }
-    esCorrecta(){
-
+    esOpcionCorrecta(validacion, seleccionOpcion){
+        return this.subOpcion.esOpcionCorrecta(validacion, seleccionOpcion)
     }
     setDescripcionOperador(descrip){
         
