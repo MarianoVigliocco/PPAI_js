@@ -1,7 +1,7 @@
 import { CambioEstado } from "./cambioestado.js";
 export class Llamada {
     constructor(descripcionOperador,detalleAccionRequerida,
-        duracion,encuestaEnviada,observacionAuditor,cliente,subOpcion,opcion,cambioEstado,categoriaSeleccionada){
+        duracion,encuestaEnviada,observacionAuditor,cliente,subOpcion,opcion,cambiosEstados,categoriaSeleccionada){
             this.descripcionOperador = descripcionOperador;
             this.detalleAccionRequerida = detalleAccionRequerida;
             this.duracion = duracion;
@@ -10,7 +10,7 @@ export class Llamada {
             this.cliente = cliente //cambiar en el diag de clases
             this.subOpcion= subOpcion
             this.opcion= opcion 
-            this.cambioEstado= cambioEstado
+            this.cambiosEstados= cambiosEstados
             this.categoriaSeleccionada = categoriaSeleccionada
 
         }
@@ -27,14 +27,18 @@ export class Llamada {
     getEstadoActual(){
             const actual= this.cambioEstado.pop()
             return actual
+    }
+
+    obtenerDuracionLlamada(fechaFinLlamada){
+        let fechaIniLlamada = null
+        for (let cambioEstado of this.cambiosEstados) {
+            if (cambioEstado.esIniciada()) {
+                fechaIniLlamada = cambioEstado.fechaHoraInicio
+            }
         }
 
-    setDuracion (){
-            const fechaActual = this.getFechaActual();
-            const fechaInicio = this.cambioEstado[this.cambioEstado.length - 1].getFechaHoraInicio();
-            const duracion = fechaActual - fechaInicio;
-            this.duracion = duracion;
-        }
+        this.duracion = this.calcularDuracion(fechaIniLlamada, fechaFinLlamada)
+    }
 
     getValidaciones(){
         return this.subOpcion.getValidaciones()
@@ -55,9 +59,10 @@ export class Llamada {
         return this.subOpcion.esOpcionCorrecta(validacion, seleccionOpcion)
     }
     setDescripcionOperador(descrip){
-        
-
+        this.descripcionOperador = descrip
     }
-    
+    calcularDuracion(fechaIni, fechaFin) {
+        this.duracion = (fechaFin.getTime() - fechaIni.getTime()) / 1000 //divido por 1000 porque se calcula en milisegundos
+    }
 }
 

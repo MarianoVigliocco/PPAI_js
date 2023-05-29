@@ -3,8 +3,8 @@ export class CambioEstado {
         this.fechaHoraInicio = fechaHoraInicio;
         this.estado = estado
     }
-    esEstadoInicial(){
-
+    esIniciada(){
+        return this.estado === "iniciada"
     }
     
     getFechaHoraInicio(){

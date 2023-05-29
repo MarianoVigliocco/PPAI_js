@@ -24,10 +24,9 @@ export class GestorRespuestaOperador {
         pantalla.mostrarPantalla();//le invoco el metodo a la Pantalla
         
         this.buscarEstadoEnCurso(estados);
+        this.getFechaActual();
 
-        let fechaInicioLlamada = this.getFechaActual();
-
-        this.llamadaActual.actualizarEstado(this.estadoLlamada, fechaInicioLlamada);
+        this.llamadaActual.actualizarEstado(this.estadoLlamada, this.fechaHoraActual);
 
         this.validaciones = this.buscarValidaciones();
         this.validaciones = this.ordenarValidaciones(this.validaciones); //chequear que ordene
@@ -40,9 +39,7 @@ export class GestorRespuestaOperador {
         //aca tengo dudas de donde haria el loop de validaciones
         //aca tengo dudas de como llamaria al otro caso de uso
 
-        this.buscarEstadoFinalizado();
-        this.calcularDuracionLlamada();
-        this.llamadaActual.setDuracion();
+        this.finalizar();
         this.finCasoDeUso();
     }
 
@@ -70,8 +67,8 @@ export class GestorRespuestaOperador {
     }
 
     ordenarValidaciones(validaciones) {
-        this.validaciones.sort((a, b) => a.nombre.toUpperCase.localeCompare(b.nombre.toUpperCase));
-    }
+        this.validaciones.sort((a, b) => a.nroOrden - b.nroOrden);
+      }
 
     buscarNombreCliente() {
         return this.llamadaActual.getNombreCliente()
@@ -98,6 +95,16 @@ export class GestorRespuestaOperador {
     tomarConfirmacionOperacion() {
 
     }
+    
+    finalizar() {
+        this.buscarEstadoFinalizado(estados);
+
+        const fechaFinLlamada = this.getFechaActual();
+
+        this.llamadaActual.actualizarEstado(this.estadoLlamada, fechaFinLlamada)
+
+        this.obtenerDuracionLlamada(fechaFinLlamada);
+    }
 
     buscarEstadoFinalizado(estados) {
         //lo mismo que esEnCurso
@@ -110,11 +117,11 @@ export class GestorRespuestaOperador {
         return null;
     }
 
-    calcularDuracionLlamada() {
-
+    obtenerDuracionLlamada(fechaFin) {
+        this.llamadaActual.obtenerDuracionLlamada(fechaFin)
     }
 
     finCasoDeUso() {
-
+        close()
     }
 }
