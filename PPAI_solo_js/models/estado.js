@@ -4,7 +4,7 @@ class Estado{
     }
     esEnCurso() {
         return this.nombre === "EnCurso";
-      }
+    }
 
     esFinalizado(estados){
         return this.nombre === "Finalizada"

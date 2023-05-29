@@ -1,19 +1,16 @@
-
 import { CambioEstado } from "./cambioestado.js";
 export class Llamada {
     constructor(descripcionOperador,detalleAccionRequerida,
-        duracion,encuestaEnviada,observacionAuditor,cliente,operador,subOpcion,opcion,auditor,categoriaSeleccionada){
+        duracion,encuestaEnviada,observacionAuditor,cliente,subOpcion,opcion,cambioEstado,categoriaSeleccionada){
             this.descripcionOperador = descripcionOperador;
             this.detalleAccionRequerida = detalleAccionRequerida;
             this.duracion = duracion;
             this.encuestaEnviada = encuestaEnviada;
             this.observacionAuditor = observacionAuditor;
             this.cliente = cliente //cambiar en el diag de clases
-            this.operador= operador
             this.subOpcion= subOpcion
             this.opcion= opcion 
-            this.cambioEstado= []
-            this.auditor = auditor
+            this.cambioEstado= cambioEstado
             this.categoriaSeleccionada = categoriaSeleccionada
 
         }
@@ -32,7 +29,7 @@ export class Llamada {
             return actual
         }
 
-     setDuracion (){
+    setDuracion (){
             const fechaActual = this.getFechaActual();
             const fechaInicio = this.cambioEstado[this.cambioEstado.length - 1].getFechaHoraInicio();
             const duracion = fechaActual - fechaInicio;
