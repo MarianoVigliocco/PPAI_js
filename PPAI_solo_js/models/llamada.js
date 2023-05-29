@@ -1,58 +1,53 @@
-
-import { CambioEstado } from "./cambioestado.js";
+import { CambioEstado } from "./cambioEstado.js";
 export class Llamada {
     constructor(descripcionOperador,detalleAccionRequerida,
-        duracion,encuestaEnviada,observacionAuditor,cliente,operador,subOpcion,opcion,auditor,categoriaSeleccionada){
+        duracion,encuestaEnviada,observacionAuditor,cliente,subOpcion,opcion,cambiosEstados,categoriaSeleccionada){
             this.descripcionOperador = descripcionOperador;
             this.detalleAccionRequerida = detalleAccionRequerida;
             this.duracion = duracion;
             this.encuestaEnviada = encuestaEnviada;
             this.observacionAuditor = observacionAuditor;
-            this.cliente= cliente //es solo el dni, con el metodO getClientePorDNI lo busca
-            this.operador= operador
+            this.cliente = cliente //cambiar en el diag de clases
             this.subOpcion= subOpcion
             this.opcion= opcion 
-            this.cambioEstado= []
-            this.auditor = auditor
+            this.cambiosEstados= cambiosEstados
             this.categoriaSeleccionada = categoriaSeleccionada
 
         }
 
-    actualizarEstado(estado, fechaI,fechaF){
-            this.crearCambioEstado(estado,fechaI,fechaF)
+    actualizarEstado(estado, fechaI){
+            this.crearCambioEstado(estado, fechaI)
         }
-    crearCambioEstado(estado,fechaI,FechaFin){
-        const cambioEstado = new CambioEstado(fechaI,estado,FechaFin)
+
+    crearCambioEstado(estado,fechaI){
+        const cambioEstado = new CambioEstado(fechaI,estado)
         this.cambioEstado.push(cambioEstado)
     }
+
     getEstadoActual(){
             const actual= this.cambioEstado.pop()
             return actual
-        }
-    setDuracion (){
-            const fechaActual = this.getFechaActual();
-            const fechaInicio = this.cambioEstado[this.cambioEstado.length - 1].getFechaHoraInicio();
-            const duracion = fechaActual - fechaInicio;
-            this.duracion = duracion;
-        }
-    getValidaciones(){
-        const subOpcionLlamada = this.subOpcion
-        return subOpcionLlamada.getValidaciones()
     }
-    getClientePorDni(){
-        const dni = this.cliente
-        const clientes = this.obtenerClientes()
-        for (const cliente of clientes) {
-            if(cliente.esTuDNI(dni)) {
-                return cliente.getNombre()
+
+    obtenerDuracionLlamada(fechaFinLlamada){
+        let fechaIniLlamada = null
+        for (let cambioEstado of this.cambiosEstados) {
+            if (cambioEstado.esIniciada()) {
+                fechaIniLlamada = cambioEstado.fechaHoraInicio
             }
         }
 
+        this.duracion = this.calcularDuracion(fechaIniLlamada, fechaFinLlamada)
     }
-    obtenerClientes() {
-        clientes = [BaseDatosClientes] //BaseDatosClientes deberia ser un archivo que contenga un array con todos los clientes
-        return clientes
+
+    getValidaciones(){
+        return this.subOpcion.getValidaciones()
     }
+
+    getNombreCliente(){
+            return this.cliente.getNombre()
+    }
+
     getDatosLlamada(){
         return {
             opcion: this.opcion,
@@ -60,12 +55,14 @@ export class Llamada {
             categoriaSeleccionada: this.categoriaSeleccionada
         }
     }
-    esCorrecta(){
-
+    esOpcionCorrecta(validacion, seleccionOpcion){
+        return this.subOpcion.esOpcionCorrecta(validacion, seleccionOpcion)
     }
     setDescripcionOperador(descrip){
         this.descripcionOperador = descrip
     }
-    
+    calcularDuracion(fechaIni, fechaFin) {
+        this.duracion = (fechaFin.getTime() - fechaIni.getTime()) / 1000 //divido por 1000 porque se calcula en milisegundos
+    }
 }
 

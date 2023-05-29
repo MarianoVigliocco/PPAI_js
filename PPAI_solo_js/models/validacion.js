@@ -1,15 +1,16 @@
-// import { getDescripcion } from "./opcionvalidacion.js"
-
-class Validacion{
-    constructor(audioMensajeValidacion,nombre,opcionesValidacion){
+import { getDescripcion } from "./opcionValidacion.js"
+export class Validacion{
+    constructor(audioMensajeValidacion,nombre,nroOrden,opcionesValidacion){
         this.audioMensajeValidacion = audioMensajeValidacion;
         this.nombre = nombre;
+        this.nroOrden = nroOrden;
         this.opcionesValidacion = opcionesValidacion;
     }
-    getValidacion(){
+    getDatosValidaciones(){
         const datosValidacion = {
             nombre: this.nombre,
             audioMensajeValidacion: this.audioMensajeValidacion,
+            nroOrden: this.nroOrden,
             opciones: []
         }
         for (const opcion of this.opcionesValidacion) {
@@ -20,9 +21,7 @@ class Validacion{
         
         return datosValidacion
     }
-    esCorrecta(){
-
-    }
+    esCorrecta(seleccionOpcion){
+        return seleccionOpcion.esCorrecta()
 }
-
-export default Validacion
+}

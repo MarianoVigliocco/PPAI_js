@@ -1,4 +1,4 @@
-class OpcionValidacion{
+export class OpcionValidacion{
     constructor(correcta, descripcion){
         this.correcta = correcta;
         this.descripcion = descripcion;
@@ -8,16 +8,11 @@ class OpcionValidacion{
         return this.descripcion
     }
 
-    esCorrecta(){ 
-        if (this.correcta) {
-            return true
-        }
-        return false
+    esCorrecta(){
+        return this.correcta
     }
     setDescripcion(desc){
         this.descripcion = desc
     }
     
 }
-
-export default OpcionValidacion

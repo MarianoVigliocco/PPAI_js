@@ -6,62 +6,54 @@ import { mostrarPantalla,
     informarExitoRegistroAccion } from "./pantallarespuestaoperador.js";*/
 
     export class GestorRespuestaOperador {
-        constructor(llamadaActual, categoriaSeleccionada, opcionLlamadaSeleccionada,dniCliente,estadoEnCurso,
-            subOpcionSeleccionada, fechaHoraActual, estadoLlamada, validaciones, estadoFinalizado){
+        constructor(llamadaActual, categoriaSeleccionada, opcionLlamadaSeleccionada,
+            subOpcionSeleccionada){
                 this.llamadaActual = llamadaActual;
                 this.categoriaSeleccionada = categoriaSeleccionada;
                 this.opcionLlamadaSeleccionada = opcionLlamadaSeleccionada;
-                this.dniCliente = dniCliente;
+                this.nombreCliente = null;
                 this.subOpcionSeleccionada = subOpcionSeleccionada;
                 this.fechaHoraActual = null;
                 this.estadoLlamada = null;
-                this.validaciones = validaciones
+                this.validaciones = null;
+                this.datosLlamadaAMostrar = null;
     
         }
     
-        RegistrarRespuestaOperador(llamadaEntrante){ // En teoria todos los metodos del gestor estan aca adentro en orden de ejecucion
-            pantalla.mostrarPantalla(); //le invoco el metodo a la Pantalla
-            this.getFechaEstadoActual();
-            const estadoEnCurso = this.buscarEstadoEnCurso(estados);
-            let fecha = this.getFechaActual();
-            llamada.actualizarEstado(estadoEnCurso, fecha);
-            const validaciones = this.buscarValidaciones();
-            const validacionesOrdenadas = this.ordenarValidaciones(validaciones);
-            const nombreCliente = this.buscarClientePorDNI();
-            const datosLlamadaAMostrar = llamada.getDatosLlamada();
+        RegistrarRespuestaOperador(){ // En teoria todos los metodos del gestor estan aca adentro en orden de ejecucion
+            pantalla.mostrarPantalla();//le invoco el metodo a la Pantalla
+            
+            this.buscarEstadoEnCurso(estados);
+            this.getFechaActual();
+    
+            this.llamadaActual.actualizarEstado(this.estadoLlamada, this.fechaHoraActual);
+    
+            this.validaciones = this.buscarValidaciones();
+            this.validaciones = this.ordenarValidaciones(this.validaciones); //chequear que ordene
+    
+            this.nombreCliente = this.buscarNombreCliente();
+    
+            this.datosLlamadaAMostrar = this.llamadaActual.getDatosLlamada(); //hasta aca controlado perfecto
+    
             this.mostrarDatosLlamada();
             //aca tengo dudas de donde haria el loop de validaciones
-            
-            pantalla.solicitarDescripcionOperador();
-            this.tomarDescripcionOperador();
-            llamada.setDescripcionOperador();
-            pantalla.solicitarAccionRequerida();
-            this.tomarAccionRequerida();
-            pantalla.solicitarConfirmacionOperador();
-            this.tomarConfirmacionOperacion();
-            //aca tengo dudas de como llamaria al otro caso de uso;
-            pantalla.informarExitoRegistroAccion();
-            this.buscarEstadoFinalizado();
-            this.calcularDuracionLlamada();
-            llamada.setDuracion();
-            this.finCasoDeUso();
-        }
+            //aca tengo dudas de como llamaria al otro caso de uso
     
-        getFechaEstadoActual(){
-            llamada.getFechaEstadoActual() // le invoco el metodo a llamada
+            this.finalizar();
+            this.finCasoDeUso();
         }
     
         buscarEstadoEnCurso(estados) {
             // meto en una constante el array estados, luego buso el esEncurso y si lo encuentra
             //asigna al atributo estadoEnCurso el nombre. sino lo encuentra devuelve null
             for (const estado of estados) {
-              if (estado.esEnCurso()) {
+            if (estado.esEnCurso()) {
                 this.estadoLlamada= estado.nombre
                 return estado;
-              }
+            }
             }
             return null;
-          }
+        }
         
         //asigno fecha y hora al atributo
         getFechaActual() {
@@ -74,25 +66,21 @@ import { mostrarPantalla,
             return llamada.getValidaciones();
         }
     
-        ordenarValidaciones() {
+        ordenarValidaciones(validaciones) {
+            this.validaciones.sort((a, b) => a.nroOrden - b.nroOrden);
+          }
     
+        buscarNombreCliente() {
+            return this.llamadaActual.getNombreCliente()
         }
     
-        buscarClientePorDNI() {
-            return Llamada.getClientePorDni()
+        mostrarDatosLlamada() {
+            PantallaRespuestaOperador.mostrarSubOpcionSeleccionada(datos.subOpcion);
         }
     
-        mostrarDatosLlamada(nombre, categoria, opcion, subopcion) {
-            PantallaRespuestaOperador.mostrarDatosLlamada(nombre, categoria, opcion, subopcion)
-        }
-    
-        verificarSeleccionOpcion(opciones) {
-            var opc_correcta;
-            for (var i = 0; i < opciones.length; i++) {
-                if (opciones[i].esCorrecta()) {
-                    opc_correcta = opciones[i]
-                    return opc_correcta.getDescripcion()
-                }
+        verificarSeleccionOpcion(validacion, seleccionOpcion) { // verificar metodo porque me parece que esta mal
+            if (!llamada.esOpcionCorrecta(validacion, seleccionOpcion)) {
+                return 'La opcion no es correcta'
             }
         }
     
@@ -107,6 +95,16 @@ import { mostrarPantalla,
         tomarConfirmacionOperacion() {
     
         }
+        
+        finalizar() {
+            this.buscarEstadoFinalizado(estados);
+    
+            const fechaFinLlamada = this.getFechaActual();
+    
+            this.llamadaActual.actualizarEstado(this.estadoLlamada, fechaFinLlamada)
+    
+            this.obtenerDuracionLlamada(fechaFinLlamada);
+        }
     
         buscarEstadoFinalizado(estados) {
             //lo mismo que esEnCurso
@@ -115,15 +113,15 @@ import { mostrarPantalla,
                     this.estadoLlamada = estado.nombre
                     return estado;
                 }
-              }
-              return null;
+            }
+            return null;
         }
     
-        calcularDuracionLlamada() {
-    
+        obtenerDuracionLlamada(fechaFin) {
+            this.llamadaActual.obtenerDuracionLlamada(fechaFin)
         }
     
         finCasoDeUso() {
-    
+            close()
         }
     }
