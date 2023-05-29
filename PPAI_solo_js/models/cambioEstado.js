@@ -10,7 +10,7 @@ export class CambioEstado {
     getFechaHoraInicio(){
         return this.fechaHoraInicio
     }
-     getNombreEstado(){
+    getNombreEstado(){
         return this.estado.nombre
     }
 }

@@ -1,8 +1,9 @@
 import { getDescripcion } from "./opcionvalidacion.js"
 export class Validacion{
-    constructor(audioMensajeValidacion,nombre,opcionesValidacion){
+    constructor(audioMensajeValidacion,nombre,nroOrden,opcionesValidacion){
         this.audioMensajeValidacion = audioMensajeValidacion;
         this.nombre = nombre;
+        this.nroOrden = nroOrden;
         this.opcionesValidacion = opcionesValidacion;
     }
     getDatosValidaciones(){

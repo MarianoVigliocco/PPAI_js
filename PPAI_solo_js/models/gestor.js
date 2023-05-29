@@ -50,13 +50,13 @@ export class GestorRespuestaOperador {
         // meto en una constante el array estados, luego buso el esEncurso y si lo encuentra
         //asigna al atributo estadoEnCurso el nombre. sino lo encuentra devuelve null
         for (const estado of estados) {
-          if (estado.esEnCurso()) {
+        if (estado.esEnCurso()) {
             this.estadoLlamada= estado.nombre
             return estado;
-          }
+        }
         }
         return null;
-      }
+    }
     
     //asigno fecha y hora al atributo
     getFechaActual() {
@@ -78,7 +78,7 @@ export class GestorRespuestaOperador {
     }
 
     mostrarDatosLlamada() {
-          PantallaRespuestaOperador.mostrarSubOpcionSeleccionada(datos.subOpcion);
+        PantallaRespuestaOperador.mostrarSubOpcionSeleccionada(datos.subOpcion);
     }
 
     verificarSeleccionOpcion(validacion, seleccionOpcion) { // verificar metodo porque me parece que esta mal
@@ -106,8 +106,8 @@ export class GestorRespuestaOperador {
                 this.estadoLlamada = estado.nombre
                 return estado;
             }
-          }
-          return null;
+        }
+        return null;
     }
 
     calcularDuracionLlamada() {
