@@ -1,6 +1,6 @@
-import { GestorRespuestaOperador } from "../models/gestor.js";
+import { GestorRespuestaOperador } from "./gestor.js";
 import OpcionValidacion from "../models/opcionvalidacion.js";
-import PantallaRespuestaOperador from "../models/pantallaRespuestaOperador.js";
+import PantallaRespuestaOperador from "./pantallaRespuestaOperador.js";
 import Validacion from "../models/validacion.js";
 import { Llamada } from "../models/llamada.js";
 
@@ -38,80 +38,16 @@ const validacion1 = new Validacion('101010', 'Nombre de tu primer perro.', vecto
 const validacion2 = new Validacion('100010', 'Colegio de primaria.', vector_opciones2)
 const validacion3 = new Validacion('100001', 'Direccion de tu primera casa.', vector_opciones3)
 
-pantallaNueva.mostrarValidacion(validacion1, 1)
-pantallaNueva.mostrarValidacion(validacion2, 2)
-pantallaNueva.mostrarValidacion(validacion3, 3)
+const vector_validaciones = [validacion1, validacion2, validacion3]
 
+pantallaNueva.mostrarValidaciones(vector_validaciones)
 
 // DOM Events
 
-document.getElementById('validacion1')
-  .addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita que se envíe el formulario por defecto
-    var opciones = document.getElementsByName('opcion1');
-    var opcionSeleccionada;
+pantallaNueva.tomarSeleccionOpcion('validacion1', 'opcion1', vector_opciones, gestor)
+pantallaNueva.tomarSeleccionOpcion('validacion2', 'opcion2', vector_opciones2, gestor)
+pantallaNueva.tomarSeleccionOpcion('validacion3', 'opcion3', vector_opciones3, gestor)
 
-    for (var i = 0; i < opciones.length; i++) {
-      if (opciones[i].checked) {
-        opcionSeleccionada = opciones[i].value;
-        break;
-      }
-    }
+pantallaNueva.tomarDescripcionOperador(llamada)
+pantallaNueva.cancelar()
 
-    if (opcionSeleccionada === gestor.verificarSeleccionOpcion(vector_opciones)) {
-      alert('La opcion seleccionada es correcta.');
-    } else {
-      alert('La opcion seleccionada es incorrecta.');
-    }
-  });
-
-
-document.getElementById('validacion2').addEventListener('submit', function (event) {
-  event.preventDefault(); // Evita que se envíe el formulario por defecto
-  var opciones = document.getElementsByName('opcion2');
-  var opcionSeleccionada;
-
-  for (var i = 0; i < opciones.length; i++) {
-    if (opciones[i].checked) {
-      opcionSeleccionada = opciones[i].value;
-      break;
-    }
-  }
-
-  if (opcionSeleccionada === gestor.verificarSeleccionOpcion(vector_opciones2)) {
-    alert('La opcion seleccionada es correcta.');
-  } else {
-    alert('La opcion seleccionada es incorrecta.');
-  }
-});
-
-document.getElementById('validacion3').addEventListener('submit', function (event) {
-  event.preventDefault(); // Evita que se envíe el formulario por defecto
-  var opciones = document.getElementsByName('opcion3');
-  var opcionSeleccionada;
-
-  for (var i = 0; i < opciones.length; i++) {
-    if (opciones[i].checked) {
-      opcionSeleccionada = opciones[i].value;
-      break;
-    }
-  }
-
-  if (opcionSeleccionada === gestor.verificarSeleccionOpcion(vector_opciones3)) {
-    alert('La opcion seleccionada es correcta.');
-  } else {
-    alert('La opcion seleccionada es incorrecta.');
-  }
-});
-
-document.getElementById('campo-respuesta').addEventListener('submit', function (event) {
-  event.preventDefault();
-  const rta_str = document.getElementById('respuesta').value;
-  llamada.setDescripcionOperador(rta_str)
-  alert('La descripcion se asigno correctamente.')
-})
-
-document.getElementById('cancelar').addEventListener('click', function (event) {
-  event.preventDefault();
-  alert('Cancelar')
-})
