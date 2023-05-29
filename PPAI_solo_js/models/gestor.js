@@ -86,8 +86,14 @@ import { mostrarPantalla,
             PantallaRespuestaOperador.mostrarDatosLlamada(nombre, categoria, opcion, subopcion)
         }
     
-        verificarSeleccionOpcion() {
-            Llamada.esCorrecta()
+        verificarSeleccionOpcion(opciones) {
+            var opc_correcta;
+            for (var i = 0; i < opciones.length; i++) {
+                if (opciones[i].esCorrecta()) {
+                    opc_correcta = opciones[i]
+                    return opc_correcta.getDescripcion()
+                }
+            }
         }
     
         tomarDescripcionOperador() {

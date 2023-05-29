@@ -8,11 +8,11 @@ class OpcionValidacion{
         return this.descripcion
     }
 
-    esCorrecta(array, correcto){ 
-        if (correcta) {
+    esCorrecta(){ 
+        if (this.correcta) {
             return true
         }
-        return null
+        return false
     }
     setDescripcion(desc){
         this.descripcion = desc

@@ -29,7 +29,7 @@ export class Llamada {
             const actual= this.cambioEstado.pop()
             return actual
         }
-     setDuracion (){
+    setDuracion (){
             const fechaActual = this.getFechaActual();
             const fechaInicio = this.cambioEstado[this.cambioEstado.length - 1].getFechaHoraInicio();
             const duracion = fechaActual - fechaInicio;
@@ -64,8 +64,7 @@ export class Llamada {
 
     }
     setDescripcionOperador(descrip){
-        
-
+        this.descripcionOperador = descrip
     }
     
 }
