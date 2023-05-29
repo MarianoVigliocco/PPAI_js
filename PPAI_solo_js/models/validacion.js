@@ -10,6 +10,7 @@ export class Validacion{
         const datosValidacion = {
             nombre: this.nombre,
             audioMensajeValidacion: this.audioMensajeValidacion,
+            nroOrden: this.nroOrden,
             opciones: []
         }
         for (const opcion of this.opcionesValidacion) {
